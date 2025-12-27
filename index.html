@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta tags esenciales para PWA -->
+    <meta name="application-name" content="Tu App">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tu App">
+    <meta name="description" content="Descripción de tu app">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Favicon y apple touch icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    
+    <!-- Safari pinned tab icon -->
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#000000">
+    
+    <!-- iOS splash screens -->
+    <link rel="apple-touch-startup-image" href="/splash/apple-launch-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/apple-launch-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    
+    <title>Tu App PWA</title>
+    
+    <style>
+        /* Estilos para el instalador de PWA */
+        #pwa-install-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 320px;
+        }
+        
+        #pwa-install-prompt {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideInUp 0.5s ease-out;
+            display: none;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        #pwa-install-prompt h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        
+        #pwa-install-prompt p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .pwa-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pwa-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        .pwa-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        #pwa-install-btn {
+            background: white;
+            color: #667eea;
+        }
+        
+        #pwa-dismiss-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        /* Badge para indicar que es instalable */
+        .pwa-badge {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: none;
+            z-index: 9999;
+        }
+        
+        /* Offline indicator */
+        #offline-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ff6b6b;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 9998;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Badge de instalación -->
+    <div class="pwa-badge" id="pwa-badge">📱 Instalar App</div>
+    
+    <!-- Indicador de offline -->
+    <div id="offline-indicator">
+        ⚠️ Estás sin conexión. Modo offline activado.
+    </div>
+    
+    <!-- Contenedor para el prompt de instalación -->
+    <div id="pwa-install-container">
+        <div id="pwa-install-prompt">
+            <h3>📱 Instalar App</h3>
+            <p>Instala esta aplicación en tu dispositivo para un acceso más rápido y una mejor experiencia.</p>
+            <div class="pwa-buttons">
+                <button class="pwa-btn" id="pwa-install-btn">Instalar</button>
+                <button class="pwa-btn" id="pwa-dismiss-btn">Ahora no</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tu contenido de la aplicación -->
+    <main>
+        <h1>Bienvenido a Tu App PWA</h1>
+        <p>Esta es una aplicación web progresiva.</p>
+        
+        <!-- Botón para probar notificaciones -->
+        <button id="test-notification" style="padding: 10px 20px; margin: 20px;">
+            🔔 Probar Notificación
+        </button>
+        
+        <!-- Estado de la PWA -->
+        <div id="pwa-status" style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <h3>Estado de la PWA:</h3>
+            <div id="status-content">Cargando...</div>
+        </div>
+    </main>
+    
+    <!-- Script principal de la PWA -->
+    <script src="scripts/pwa-manager.js"></script>
+</body>
+</html>
